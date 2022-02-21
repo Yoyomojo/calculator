@@ -1,5 +1,5 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { ThemeProvider } from 'styled-components';
 import Calculator from './components/calculator/Calculator';
 import ToggleCalculatorTheme from './components/ToggleCalcuatorTheme';
@@ -9,10 +9,10 @@ import { removeWhiteSpace } from './util/removeWhiteSpace';
 import { toLocaleString } from './util/toLocaleString';
 
 const App = () => {
-  const [CalcuatorTheme, setCalculatorTheme] = useState('calculatorDark');
+  const [calcuatorTheme, setCalculatorTheme] = useState('calculatorDark');
 
   const changeCalculatorTheme = () => {
-    if (CalcuatorTheme === 'calculatorLight') {
+    if (calcuatorTheme === 'calculatorLight') {
       setCalculatorTheme('calculatorDark');
     } else {
       setCalculatorTheme('calculatorLight');
@@ -24,6 +24,11 @@ const App = () => {
     numbers: 0,
     result: 0,
   });
+
+  useEffect(() => {
+    // set the default theme based on users OS preferences
+    window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? setCalculatorTheme('calculatorDark') : setCalculatorTheme('calculatorLight');
+  }, []);
 
   const numberClick = (e) => {
     e.preventDefault();
@@ -125,14 +130,14 @@ const App = () => {
   };
 
   return (
-    <ThemeProvider theme={CalcuatorTheme === 'calculatorDark' ? calculatorDark : calculatorLight}>
+    <ThemeProvider theme={calcuatorTheme === 'calculatorDark' ? calculatorDark : calculatorLight}>
       <div className='container-fluid'>
         <div className='row mt-3'>
           <div className='col'>
             <h1><FontAwesomeIcon icon={['fa', 'calculator']} className='me-1' /> {process.env.REACT_APP_SITE_NAME}</h1>
           </div>
           <div className='col'>
-            <ToggleCalculatorTheme changeEvent={changeCalculatorTheme} />
+            <ToggleCalculatorTheme changeEvent={changeCalculatorTheme} currentTheme={calcuatorTheme === 'calculatorLight' ? true : false} />
           </div>
         </div>
 

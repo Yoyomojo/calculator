@@ -11,7 +11,7 @@ const ToggleCalculatorTheme = (props) => {
                 </li>
                 <li className='list-inline-item'>
                     <div className='form-check form-switch text-start'>
-                        <input className='form-check-input' type='checkbox' role='switch' name='changeThemeToggle' id='changeThemeToggle' onChange={props.changeEvent} />
+                        <input className='form-check-input' type='checkbox' role='switch' name='changeThemeToggle' id='changeThemeToggle' onChange={props.changeEvent} checked={props.currentTheme} />
                     </div>
                 </li>
                 <li className='list-inline-item'>
